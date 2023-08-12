@@ -17,6 +17,7 @@ static const char *now_str(void)
 	unsigned int s;
 	unsigned int min;
 	unsigned int h;
+	unsigned int uT;
 
 	now /= MSEC_PER_SEC;
 	s = now % 60U;
@@ -57,15 +58,16 @@ static int process_mpu9250(const struct device *dev)
 	if (rc == 0) {
 		printf("[%s]:%g Cel\n"
 		       "  accel %f %f %f m/s/s\n"
-		       "  gyro  %f %f %f rad/s\n",
+		       "  gyro  %f %f %f rad/s\n"
+			   "  magn  %f %f %f uT",
 		       now_str(),
 		       sensor_value_to_double(&temperature),
 		       sensor_value_to_double(&accel[0]),
 		       sensor_value_to_double(&accel[1]),
 		       sensor_value_to_double(&accel[2]),
 		       sensor_value_to_double(&gyro[0]),
-		       sensor_value_to_double(&gyro[1]),
-		       sensor_value_to_double(&gyro[2]);
+			   sensor_value_to_double(&gyro[1]),
+		       sensor_value_to_double(&gyro[2]),
 			   sensor_value_to_double(&magn[0]),
 		       sensor_value_to_double(&magn[1]),
 		       sensor_value_to_double(&magn[2]));
@@ -107,8 +109,7 @@ int main(void)
 		.chan = SENSOR_CHAN_ALL,
 	};
 	if (sensor_trigger_set(mpu9250, &trigger,
-			       handle_mpu9250
-				_drdy) < 0) {
+			       handle_mpu9250_drdy) < 0) {
 		printf("Cannot configure trigger\n");
 		return 0;
 	}
