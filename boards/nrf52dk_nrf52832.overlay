@@ -1,0 +1,21 @@
+/*
+ * Copyright (c) 2019 Nordic Semiconductor ASA
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+ &i2c0 {
+    mpu9250@68 {
+    compatible = "invensense,mpu9250";
+    reg = <0x68>;
+    status = "okay";
+    label = "MPU9250";
+    irq-gpios = <&gpio0 11 GPIO_ACTIVE_HIGH>;
+    gyro-sr-div = < 10 >;
+    //gyro-sr-div-min = < 0 >;
+    gyro-dlpf = < 250 >;
+    gyro-fs = < 500 >;
+    accel-fs = < 2 >;
+    accel-dlpf = "218.1";
+};
+};
+
